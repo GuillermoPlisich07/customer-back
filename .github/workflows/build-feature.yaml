@@ -1,13 +1,15 @@
 name: build and test feature branch
-on: #Eventos
-    push:
-        branches:
-            - feature/*
+on:
+    pull_request:
+      branches: [ developer ]
+      types: [opened, reopened]
 jobs: #Construir el ambiente
     build-feature:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+              with:
+                ref: ${{ github.event.pull_request.head.sha }}
             - name: pull and chekout form git repository
 
               run: | 
@@ -18,6 +20,13 @@ jobs: #Construir el ambiente
               with:
                 distribution: 'temurin'
                 java-version: '17'
+
+            - name: Cache Primes
+              uses: actions/cache@v4
+              with: 
+                path: ~/.m2/repository 
+                key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}   
+                restore-keys: ${{ runner.os }}-maven-
 
             - name: build with maven
               run: |
