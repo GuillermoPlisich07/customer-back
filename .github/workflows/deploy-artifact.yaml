@@ -142,7 +142,7 @@ jobs:
             JAR_FILE=${{ github.event.client_payload.artifact_name }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           push : true # Push image to registry, false by deafult.
-          tags : ghcr.io/${{ github.OWNER_LC}}/cutomer-back:${{ github.sha }} # The image ful name, include repository, user, image name and tag 
+          tags : ghcr.io/${{ env.OWNER_LC}}/cutomer-back:${{ github.sha }} # The image ful name, include repository, user, image name and tag 
     
 
 
